@@ -1,2 +1,0 @@
-# Clock
-A beautiful clock
