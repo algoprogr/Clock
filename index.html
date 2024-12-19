@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Clock with Date</title>
     <link rel="stylesheet" href="flip.css"/>
   </head>
@@ -98,6 +98,145 @@
          margin-top: 10px;
          margin-bottom: 50px;
        }
+
+       @media (max-width: 768px) {
+  /* Mobile-specific adjustments */
+  body {
+    flex-direction: column; /* Stack items vertically */
+    padding: 10px; /* Add some padding to avoid edges */
+    font-size: 0.9rem; /* Slightly smaller font size for readability */
+    width: 100%; /* Ensure it fits the screen */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    justify-content: flex-start; /* Ensure the elements are aligned at the top */
+  }
+
+  .date {
+    font-size: 2rem; /* Adjust date font size for mobile */
+    margin-bottom: 10px; /* Reduce space between date and clock */
+  }
+
+  .tick {
+    font-size: 2rem; /* Adjust clock font size for mobile */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+
+  .tick-group {
+    font-size: 1.5rem; /* Adjust size for time groups (hours, minutes, seconds) */
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+
+  .time-label {
+    font-size: 0.8em; /* Smaller font size for labels */
+    margin-top: 0.5em; /* Reduce space between labels and digits */
+  }
+
+  .tick-char {
+    width: 1.2em; /* Adjust character width */
+  }
+
+  .tick-text-inline {
+    font-size: 1.6rem; /* Reduce inline font size */
+  }
+
+  .group-gap {
+    margin-left: 0.1em;
+    margin-right: 0.1em;
+  }
+
+  .tick-group {
+    margin-right: 8px; /* Reduce space between time groups */
+  }
+
+  /* Further adjustments for very small screens (portrait phones, < 480px) */
+  @media (max-width: 480px) {
+    .date {
+      font-size: 1.6rem; /* Even smaller date font */
+      margin-bottom: 5px; /* Reduce space further */
+    }
+
+    .tick {
+      font-size: 1.8rem; /* Smaller clock digits for tiny screens */
+    }
+
+    .tick-group {
+      font-size: 1.2rem; /* Smaller group sizes */
+    }
+
+    .tick-text-inline {
+      font-size: 1.4rem; /* Further reduce font size for inline text */
+    }
+
+    .group-gap {
+      margin-left: 0.1em;
+      margin-right: 0.1em;
+    }
+
+    /* Add extra padding to the body to make sure it fits well */
+    body {
+      padding: 5px; /* Reduce padding on very small screens */
+      justify-content: flex-start;
+    }
+
+    .time-label {
+      font-size: 0.7em; /* Make the labels smaller on very small screens */
+    }
+  }
+}
+
+/* Media Query for landscape orientation (min-width: 768px, portrait => max-width < 768px) */
+@media (min-width: 768px) and (orientation: landscape) {
+  /* For landscape mode on mobile devices */
+  body {
+    flex-direction: column; /* Keep the date above the time in column layout */
+    justify-content: flex-start;
+    padding: 15px;
+  }
+
+  .date {
+    font-size: 3rem; /* Adjust date size for larger mobile screens in landscape */
+    margin-bottom: 0; /* Reduce space between date and clock */
+    margin-right: 0; /* Remove the margin-right */
+  }
+
+  .tick {
+    font-size: 3rem; /* Adjust clock font size for landscape */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .tick-group {
+    font-size: 2rem; /* Larger size for time groups in landscape */
+    margin-right: 15px; /* Increase space between the time groups */
+    display: inline-block;
+  }
+
+  .time-label {
+    font-size: 1em; /* Keep label font size consistent for landscape */
+    margin-top: 0.5em;
+  }
+
+  .tick-char {
+    width: 2em; /* Increase width of each tick character */
+  }
+
+  .tick-text-inline {
+    font-size: 2.2rem; /* Larger inline text in landscape */
+  }
+
+  .group-gap {
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+  }
+
+  .tick-group {
+    margin-right: 12px; /* Add some more spacing between time groups */
+  }
+}
     </style>
     <!-- Add a div for the current date -->
     <div class="date" id="current-date"></div>
