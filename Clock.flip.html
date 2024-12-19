@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Clock with Date</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pqina/flip@1.8.4/dist/flip.min.css" />
+  </head>
+  <body>
+    <style>
+       /* Apply flexbox to the body to center the clock both vertically and horizontally */
+       body {
+         background-color: #fff !important;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh; /* Ensure the body takes up full height */
+         margin: 0; /* Remove any default margin */
+         flex-direction: column; /* Stack the clock and date vertically */
+         font-family: 'Arial', sans-serif; /* Font for the entire page */
+       }
+       .date {
+         font-size: 4em; /* Make the date large */
+         color: #595d63;
+         margin-bottom: 30px; /* Space between date and clock */
+         text-align: center;
+         font-weight: 600;
+         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for the date */
+       }
+       .tick {
+         font-size: 4rem;
+         white-space: nowrap;
+         font-family: arial, sans-serif;
+       }
+       .tick-flip, .tick-text-inline {
+         font-size: 2.5em;
+       }
+       .tick-label {
+         margin-top: 1em;
+         font-size: 1em;
+       }
+       .tick-char {
+         width: 1.5em;
+       }
+       .tick-text-inline {
+         display: inline-block;
+         text-align: center;
+         min-width: 1em;
+       }
+       .tick-text-inline + .tick-text-inline {
+         margin-left: 0.5em;
+       }
+       .tick-group {
+         margin: 0 0.5em;
+         text-align: center;
+       } 
+       /* Remove margin and padding from span elements within the tick-group */
+       .tick-group span {
+       margin: 0; /* Remove default margin */
+       padding: 0; /* Remove any padding */
+       }
+       .tick-text-inline {
+         color: #595d63 !important;
+       }
+       .tick-label {
+         color: #595d63 !important;
+       }
+       .tick-flip-panel {
+         color: #fff !important;
+       }
+       .tick-flip {
+         font-family: 'Roboto', sans-serif;
+       }
+       .tick-flip-panel-text-wrapper {
+         line-height: 1.45 !important;
+       }
+       .tick-flip-panel {
+         background-color: #3c3e3c !important;
+       }
+       .tick-flip {
+         border-radius: 0.12em !important;
+       }
+       /* Add gap between groups */
+       .group-gap {
+         margin-left: 0.2em;
+         margin-right: 0.2em;
+       }
+       /* Style the labels under each time group */
+       .time-label {
+         font-size: 1em;
+         color: #595d63;
+         margin-top: 0.5em;
+       }
+       /* Style for the date */
+       .date {
+         font-size: 6em;
+         color: #595d63;
+         margin-top: 10px;
+         margin-bottom: 50px;
+       }
+    </style>
+    <!-- Add a div for the current date -->
+    <div class="date" id="current-date"></div>
+
+    <div class="tick" data-did-init="handleTickInit">
+      <div data-layout="horizontal fit"style="display: flex; justify-content: center; align-items: center;">
+        <!-- Hour: separate digits for the hour -->
+        <div class="tick-group">
+          <span data-key="hours_1" data-transform="pad(0)" data-view="flip"></span>
+          <!-- First digit of hours -->
+          <span
+            data-key="hours_2" data-transform="pad(0)" data-view="flip"
+          ></span>
+          <!-- Second digit of hours -->
+          <div class="time-label">Hours</div>
+        </div>
+        <!-- Add gap between hours and minutes -->
+        <span class="group-gap"></span>
+        <!-- Gap between hours and minutes -->
+        <!-- Minute: separate digits for minutes -->
+        <div class="tick-group">
+          <span data-key="minutes_1" data-transform="pad(0)" data-view="flip"></span>
+          <!-- First digit of minutes -->
+          <span data-key="minutes_2" data-transform="pad(0)" data-view="flip"></span>
+          <!-- Second digit of minutes -->
+          <div class="time-label">Minutes</div>
+        </div>
+        <!-- Add gap between minutes and seconds -->
+        <span class="group-gap"></span>
+        <!-- Gap between minutes and seconds -->
+        <!-- Second: separate digits for seconds -->
+        <div class="tick-group">
+          <span data-key="seconds_1" data-transform="pad(0)" data-view="flip"></span>
+          <!-- First digit of seconds -->
+          <span data-key="seconds_2" data-transform="pad(0)" data-view="flip"></span>
+          <!-- Second digit of seconds -->
+          <div class="time-label">Seconds</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function handleTickInit(tick) {
+        // start interval (default is 1 second) and update clock with current time
+        Tick.helper.interval(function() {
+          var d = Tick.helper.date();
+          tick.value = {
+            sep: '.',
+            hours_1: Math.floor(d.getHours() / 10), // First digit of hours
+            hours_2: d.getHours() % 10, // Second digit of hours
+            minutes_1: Math.floor(d.getMinutes() / 10), // First digit of minutes
+            minutes_2: d.getMinutes() % 10, // Second digit of minutes
+            seconds_1: Math.floor(d.getSeconds() / 10), // First digit of seconds
+            seconds_2: d.getSeconds() % 10 // Second digit of seconds
+          };
+
+          // Get current date and update the date display
+          var day = d.toLocaleString('default', { weekday: 'long' });
+          var month = d.toLocaleString('default', { month: 'long' });
+          var date = d.getDate();
+          var year = d.getFullYear();
+
+          // Capitalize first letter of day and month
+          day = day.charAt(0).toUpperCase() + day.slice(1);
+          month = month.charAt(0).toUpperCase() + month.slice(1);
+
+          var formattedDate = day + ' ' + date + ' ' + month + ' ' + year;
+          document.getElementById('current-date').textContent = formattedDate;
+        });
+
+        window.addEventListener('load', function() {
+        var tickCredits = document.querySelector('.tick-credits');
+
+        if (tickCredits) {
+        tickCredits.style.display = 'none';
+      }
+      });
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@pqina/flip@1.8.4/dist/flip.min.js"></script>
+  </body>
+</html>
